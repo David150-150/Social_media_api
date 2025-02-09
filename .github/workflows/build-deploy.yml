@@ -34,6 +34,110 @@
 # #           pytest
   
 
+# name: Build and Deploy Code # This first line is the name of the GitHub Workflow
+
+# on: [push, pull_request]
+
+# jobs:
+#   job1:
+#     environment:
+#       name: testing
+#     env:
+#       DATABASE_HOSTNAME: ${{secrets.DATABASE_HOSTNAME}}
+#       DATABASE_PORT: ${{secrets.DATABASE_PORT}}
+#       DATABASE_PASSWORD: ${{secrets.DATABASE_PASSWORD }}
+#       DATABASE_NAME: ${{secrets.DATABASE_NAME}}
+#       DATABASE_USERNAME: ${{secrets.DATABASE_USERNAME}}
+#       SECRET_KEY: ${{secrets.SECRET_KEY}}
+#       ALGORITHM: ${{secrets.ALGORITHM}}
+#       ACCESS_TOKEN_EXPIRE_MINUTES: ${{secrets.ACCESS_TOKEN_EXPIRE_MINUTES}}
+
+#     services:
+#       postgres:
+#         image: postgres
+#         env:
+#           POSTGRES_PASSWORD: ${{secrets.DATABASE_PASSWORD }}
+#           POSTGRES_DB: ${{secrets.DATABASE_NAME}}
+#         ports:
+#           - 5432:5432
+#         options: >-
+#           --health-cmd pg_isready
+#           --health-interval 10s
+#           --health-timeout 5s
+#           --health-retries 5
+
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - name: Pulling git repo
+#         uses: actions/checkout@v4
+
+#       - name: Install Python 3.11.2
+#         uses: actions/setup-python@v5
+#         with:
+#           python-version: "3.11.2"
+
+#       - name: Update pip
+#         run: python -m pip install --upgrade pip
+
+#       - name: Install all dependencies
+#         run: pip install -r requirements.txt
+      
+
+#       - name: Test with pytest
+#         run: |
+#           pip install pytest
+#           export PYTHONPATH=$(pwd)
+#           pytest
+
+#       # - name: Login to Docker Hub
+#       #   uses: docker/login-action@v1
+#       #   with:
+#       #     username: ${{secrets.DOCKER_HUB_USERNAME}}
+#       #     password: ${{secrets.DOCKER_HUB_ACCESS_TOKEN}}
+
+#       # - name: Set up Docker buildx
+#       #   id: docker_buildx
+#       #   uses: docker/setup-buildx-action@v1
+
+#       # - name: Build and push
+#       #   id: docker_build
+#       #   uses: docker/build-push-action@v2
+#       #   with:
+#       #     context: ./
+#       #     file: ./Dockerfile
+#       #     builder: ${{steps.buildx.outputs.name}}
+#       #     push: true
+#       #     tags: ${{secrets.DOCKER_HUB_USERNAME}}/fastapi:latest
+#       #     cache-from: type-local,scr-/tmp/.buildx-cache
+#       #     cache to: type-local,dest-/tmp/.buildx-cache
+#       # - name: Image digest
+#       #   run: echo ${{steps.docker.build.outputs.digest}}
+#       - name: Login to Docker Hub
+#         uses: docker/login-action@v3
+#         with:
+#           username: ${{ secrets.DOCKER_HUB_USERNAME }}
+#           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+#       - name: Set up Docker Buildx
+#         id: docker_buildx
+#         uses: docker/setup-buildx-action@v3
+
+#       - name: Build and Push
+#         id: docker_build
+#         uses: docker/build-push-action@v6
+#         with:
+#           context: ./
+#           file: ./Dockerfile
+#           builder: ${{ steps.docker_buildx.outputs.name }}
+#           push: true
+#           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/fastapi:latest
+#           cache-from: type=local,src=/tmp/.buildx-cache
+#           cache-to: type=local,dest=/tmp/.buildx-cache
+
+#       - name: Image Digest
+#         run: echo ${{ steps.docker_build.outputs.digest }}
+
 name: Build and Deploy Code # This first line is the name of the GitHub Workflow
 
 on: [push, pull_request]
@@ -45,7 +149,7 @@ jobs:
     env:
       DATABASE_HOSTNAME: ${{secrets.DATABASE_HOSTNAME}}
       DATABASE_PORT: ${{secrets.DATABASE_PORT}}
-      DATABASE_PASSWORD: ${{secrets.DATABASE_PASSWORD }}
+      DATABASE_PASSWORD: ${{secrets.DATABASE_PASSWORD}}
       DATABASE_NAME: ${{secrets.DATABASE_NAME}}
       DATABASE_USERNAME: ${{secrets.DATABASE_USERNAME}}
       SECRET_KEY: ${{secrets.SECRET_KEY}}
@@ -56,10 +160,10 @@ jobs:
       postgres:
         image: postgres
         env:
-          POSTGRES_PASSWORD: ${{secrets.DATABASE_PASSWORD }}
+          POSTGRES_PASSWORD: ${{secrets.DATABASE_PASSWORD}}
           POSTGRES_DB: ${{secrets.DATABASE_NAME}}
         ports:
-          - 5432:5432
+          - "5432:5432"
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -83,36 +187,12 @@ jobs:
       - name: Install all dependencies
         run: pip install -r requirements.txt
       
-
       - name: Test with pytest
         run: |
           pip install pytest
           export PYTHONPATH=$(pwd)
           pytest
 
-      # - name: Login to Docker Hub
-      #   uses: docker/login-action@v1
-      #   with:
-      #     username: ${{secrets.DOCKER_HUB_USERNAME}}
-      #     password: ${{secrets.DOCKER_HUB_ACCESS_TOKEN}}
-
-      # - name: Set up Docker buildx
-      #   id: docker_buildx
-      #   uses: docker/setup-buildx-action@v1
-
-      # - name: Build and push
-      #   id: docker_build
-      #   uses: docker/build-push-action@v2
-      #   with:
-      #     context: ./
-      #     file: ./Dockerfile
-      #     builder: ${{steps.buildx.outputs.name}}
-      #     push: true
-      #     tags: ${{secrets.DOCKER_HUB_USERNAME}}/fastapi:latest
-      #     cache-from: type-local,scr-/tmp/.buildx-cache
-      #     cache to: type-local,dest-/tmp/.buildx-cache
-      # - name: Image digest
-      #   run: echo ${{steps.docker.build.outputs.digest}}
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
@@ -127,7 +207,7 @@ jobs:
         id: docker_build
         uses: docker/build-push-action@v6
         with:
-          context: ./
+          context: .
           file: ./Dockerfile
           builder: ${{ steps.docker_buildx.outputs.name }}
           push: true
