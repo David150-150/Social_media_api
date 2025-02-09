@@ -21,4 +21,5 @@ jobs:
       - name: test with pytest
         run: |
           pip install pytest
+          export PYTHONPATH=$(pwd)
           pytest
