@@ -68,6 +68,8 @@ jobs:
 
       - name: Install all dependencies
         run: pip install -r requirements.txt
+      - name: Debug Secrets  # 🔹 Add this step here
+        run: env | grep DATABASE
 
       - name: Test with pytest
         run: |
