@@ -1,0 +1,35 @@
+services:
+  api:
+    #build: .
+    image: kusi150/fastapi
+    depends_on:
+      - postgres
+    ports:
+      - "80:8000"
+    #volumes:
+    #  - /home/david/Documents/Projects/app:/app:ro  # Maps host directory to container path with read-only access
+    #command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    
+    environment:
+      - DATABASE_HOSTNAME=${DATABASE_HOSTNAME}
+      - DATABASE_PORT=${DATABASE_PORT}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+      - DATABASE_NAME=${DATABASE_NAME}
+      - DATABASE_USERNAME=${DATABASE_USERNAME}
+      - SECRET_KEY=${SECRET_KEY}
+      - ALGORITHM=${ALGORITHM}
+      - ACCESS_TOKEN_EXPIRE_MINUTES=${ACCESS_TOKEN_EXPIRE_MINUTES}
+
+
+  postgres:
+    image: postgres
+    environment:
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+      - DATABASE_NAME=${DATABASE_NAME}
+
+
+    volumes:
+      - postgres-db:/var/lib/postgresql/data
+
+volumes:
+    postgres-db:

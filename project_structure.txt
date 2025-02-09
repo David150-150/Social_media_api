@@ -1,0 +1,98 @@
+.
+├── alembic
+│   ├── env.py
+│   ├── README
+│   ├── script.py.mako
+│   └── versions
+│       ├── 0621400dc6a0_add_user_table.py
+│       ├── 08bdf64abe42_add_foreign_key_to_post_table.py
+│       ├── 44d867fef827_auto_vote.py
+│       ├── 6b8d87f0afde_add_last_few_columns_to_posts_table.py
+│       ├── 9066f418b955_add_phone_number.py
+│       ├── d5ab2d61af33_add_content_column_to_the_posts_table.py
+│       └── e695961645ba_create_posts_table.py
+├── alembic.ini
+├── app
+│   ├── calculation.py
+│   ├── config.py
+│   ├── data_base.py
+│   ├── db_models.py
+│   ├── __init__.py
+│   ├── main.py
+│   ├── oauth2.py
+│   ├── __pycache__
+│   │   ├── calculation.cpython-311.pyc
+│   │   ├── config.cpython-311.pyc
+│   │   ├── data_base.cpython-311.pyc
+│   │   ├── db_models.cpython-311.pyc
+│   │   ├── __init__.cpython-311.pyc
+│   │   ├── main.cpython-311.pyc
+│   │   ├── oauth2.cpython-311.pyc
+│   │   ├── schema.cpython-311.pyc
+│   │   └── utails.cpython-311.pyc
+│   ├── routers
+│   │   ├── auth.py
+│   │   ├── post.py
+│   │   ├── __pycache__
+│   │   ├── user.py
+│   │   └── vote.py
+│   ├── schema.py
+│   └── utails.py
+├── docker-compose-dev.yml
+├── docker-compose-prod.yml
+├── dockerfile
+├── project_structure.txt
+├── requirements.txt
+├── tests
+│   ├── conftest.py
+│   ├── database.py
+│   ├── __init__py
+│   ├── __pycache__
+│   │   ├── conftest.cpython-311-pytest-8.3.4.pyc
+│   │   ├── database.cpython-311.pyc
+│   │   ├── test_calculations.cpython-311-pytest-8.3.4.pyc
+│   │   └── test_users.cpython-311-pytest-8.3.4.pyc
+│   ├── test_calculations.py
+│   ├── test_post.py
+│   ├── test_users.py
+│   └── test_vote.py
+└── venv
+    ├── bin
+    │   ├── activate
+    │   ├── activate.csh
+    │   ├── activate.fish
+    │   ├── Activate.ps1
+    │   ├── alembic
+    │   ├── dotenv
+    │   ├── email_validator
+    │   ├── fastapi
+    │   ├── httpx
+    │   ├── mako-render
+    │   ├── markdown-it
+    │   ├── pip
+    │   ├── pip3
+    │   ├── pip3.11
+    │   ├── pygmentize
+    │   ├── pyrsa-decrypt
+    │   ├── pyrsa-encrypt
+    │   ├── pyrsa-keygen
+    │   ├── pyrsa-priv2pub
+    │   ├── pyrsa-sign
+    │   ├── pyrsa-verify
+    │   ├── py.test
+    │   ├── pytest
+    │   ├── python -> python3
+    │   ├── python3 -> /usr/bin/python3
+    │   ├── python3.11 -> python3
+    │   ├── typer
+    │   ├── uvicorn
+    │   └── watchfiles
+    ├── include
+    │   ├── python3.11
+    │   └── site
+    ├── lib
+    │   └── python3.11
+    ├── lib64 -> lib
+    └── pyvenv.cfg
+
+17 directories, 79 files

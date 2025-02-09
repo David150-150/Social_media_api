@@ -1,0 +1,12 @@
+name: Build and Deploy Code # This first line is the name of the GitWork Flow
+
+on: [push, pull_request]
+
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    steps:
+      - name: pulling git repo
+        uses: actions/checkout@v2
+      - name: Check OS
+        run: echo "Running on Linux"
