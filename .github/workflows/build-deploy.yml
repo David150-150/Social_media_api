@@ -224,6 +224,8 @@ jobs:
     environment:
       name: testing
 
+    runs-on: ubuntu-latest
+
     services:
       postgres:
         image: postgres
@@ -237,8 +239,6 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-
-    runs-on: ubuntu-latest
 
     steps:
       - name: Pulling git repo
