@@ -2,11 +2,42 @@ name: Build and Deploy Code # This first line is the name of the GitWork Flow
 
 on: [push, pull_request]
 
+# jobs:
+#   job1:
+#     env:
+#       DATABASE_HOSTNAME: ${{ secrets.DATABASE_HOSTNAME }}
+#       DATABASE_PORT: ${{ secrets.DATABASE_PORT}}
+#       DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+#       DATABASE_NAME: ${{ secrets.DATABASE_NAME }}
+#       DATABASE_USERNAME: ${{ secrets.DATABASE_USERNAME }}
+#       SECRET_KEY: ${{ secrets.SECRET_KEY }}
+#       ALGORITHM: ${{ secrets.ALGORITHM }}
+#       ACCESS_TOKEN_EXPIRE_MINUTES: ${{ secrets.ACCESS_TOKEN_EXPIRE_MINUTES }}
+      
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: pulling git repo
+#         uses: actions/checkout@v4
+#       # - name: Check OS
+#       #   run: echo "Running on Linux"
+#       - name: Install python version 3.11.2
+#         uses: actions/setup-python@v5
+#         with:
+#           python-version: "3.11.2"
+#       - name: update pip
+#         run: python -m pip install --upgrade pip
+#       - name: install all dependencies
+#         run: pip install -r requirements.txt
+#       - name: test with pytest
+#         run: |
+#           pip install pytest
+#           export PYTHONPATH=$(pwd)
+#           pytest
 jobs:
   job1:
     env:
       DATABASE_HOSTNAME: ${{ secrets.DATABASE_HOSTNAME }}
-      DATABASE_PORT: ${{ secrets.DATABASE_PORT}}
+      DATABASE_PORT: ${{ secrets.DATABASE_PORT }}
       DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
       DATABASE_NAME: ${{ secrets.DATABASE_NAME }}
       DATABASE_USERNAME: ${{ secrets.DATABASE_USERNAME }}
@@ -16,19 +47,24 @@ jobs:
       
     runs-on: ubuntu-latest
     steps:
-      - name: pulling git repo
+      - name: Pulling git repo
         uses: actions/checkout@v4
-      # - name: Check OS
-      #   run: echo "Running on Linux"
-      - name: Install python version 3.11.2
+
+      - name: Debug environment variables
+        run: echo "ACCESS_TOKEN_EXPIRE_MINUTES=${{ secrets.ACCESS_TOKEN_EXPIRE_MINUTES }}"
+
+      - name: Install Python 3.11.2
         uses: actions/setup-python@v5
         with:
           python-version: "3.11.2"
-      - name: update pip
+
+      - name: Update pip
         run: python -m pip install --upgrade pip
-      - name: install all dependencies
+
+      - name: Install all dependencies
         run: pip install -r requirements.txt
-      - name: test with pytest
+
+      - name: Test with pytest
         run: |
           pip install pytest
           export PYTHONPATH=$(pwd)
