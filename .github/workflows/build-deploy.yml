@@ -47,13 +47,10 @@ jobs:
       
     runs-on: ubuntu-latest
     steps:
-      - name: Pulling git repo
+      - name: pulling git repo
         uses: actions/checkout@v4
 
-      - name: Debug environment variables
-        run: echo "ACCESS_TOKEN_EXPIRE_MINUTES=${{ secrets.ACCESS_TOKEN_EXPIRE_MINUTES }}"
-
-      - name: Install Python 3.11.2
+      - name: Install python version 3.11.2
         uses: actions/setup-python@v5
         with:
           python-version: "3.11.2"
@@ -63,6 +60,10 @@ jobs:
 
       - name: Install all dependencies
         run: pip install -r requirements.txt
+
+      # 🛠️ Debug step: Check if the secret is correctly set
+      - name: Debug environment variables
+        run: echo "ACCESS_TOKEN_EXPIRE_MINUTES=${{ secrets.ACCESS_TOKEN_EXPIRE_MINUTES }}"
 
       - name: Test with pytest
         run: |
