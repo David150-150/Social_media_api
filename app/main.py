@@ -1,78 +1,54 @@
-# from fastapi import FastAPI                  
-# from typing import Optional, ClassVar, List                                        
-# from .routers import post, user, vote #, auth
-# from .config import Settings
-
-# from . import db_models as models, schema, utail as utils #JUST know that naming can affact your code its should have been from . import models
-# from .data_base import engine#, get_db #no longer need SessionLocal
-# from fastapi.middleware.cors import CORSMiddleware
 
 
-# app = FastAPI()
-
-# #This allows all web protocoles but you can also be specific like this "[origins = [https://www.youtube.com]....etc]"
-# origins = ["*"]
-
-# # origins = [
-# #     "http://localhost",  # For local development
-# #     "http://127.0.0.1",  # For local IP-based testing
-# #     "http://localhost:8000",  # Specific port
-# #     "https://localhost:8000"  # Secure local testing
-# # ]
-
-# app.add_middleware(
-#     CORSMiddleware,
-#     allow_origins=origins,
-#     allow_credentials=True,
-#     allow_methods=["*"],
-#     allow_headers=["*"],
-# )
-
-
-# #Include Routers
-# app.include_router(post.router)
-# app.include_router(user.router)
-# app.include_router(auth.router)
-# app.include_router(vote.router)
-
-
-# @app.get("/")
-# def root():
-#     return{"message": "Hello world!"}
-
-
+# Import FastAPI framework for building the API
 from fastapi import FastAPI                  
+
+# Import necessary types for type hinting
 from typing import Optional, ClassVar, List
 
+# Import database models and utility functions
 from . import db_models as db_models, utails as utails                                        
-from .routers import post, user, vote, auth  # Import auth here
+
+# Import different route modules
+from .routers import post, user, vote, auth  
+
+# Import settings configuration
 from .config import Settings
-from . import schema  # Correcting naming
-from .data_base import engine  # no longer need SessionLocal
+
+# Import schemas (data validation models)
+from . import schema  
+
+# Import database engine for table creation
+from .data_base import engine 
+
+# Import CORS middleware to handle cross-origin requests
 from fastapi.middleware.cors import CORSMiddleware
 
 
+# Initialize FastAPI application
 app = FastAPI()
 
-# This allows all web protocols, you can customize this later
+# Define the allowed origins (currently allowing all domains)
 origins = ["*"]
 
+# Add CORS middleware to allow cross-origin requests
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_origins=origins,  # Allow requests from any origin (* means all)
+    allow_credentials=True,  # Allow credentials (cookies, authorization headers)
+    allow_methods=["*"],  # Allow all HTTP methods (GET, POST, PUT, DELETE, etc.)
+    allow_headers=["*"],  # Allow all headers in requests
 )
 
 
-# Include Routers
-app.include_router(post.router)
-app.include_router(user.router)
-app.include_router(auth.router)  # Make sure the auth router is included
-app.include_router(vote.router)
+# Include different routers to organize endpoints
+app.include_router(post.router)  # Routes for handling posts
+app.include_router(user.router)  # Routes for handling users
+app.include_router(auth.router)  # Routes for authentication (login/signup)
+app.include_router(vote.router)  # Routes for handling votes (upvotes/downvotes)
 
 
+# Define the root endpoint
 @app.get("/")
 def root():
-    return {"message": "Hello world!"}
+    return {"message": "Hello world!"}  # Returns a simple JSON response

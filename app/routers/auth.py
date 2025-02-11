@@ -1,76 +1,44 @@
-# from fastapi import FastAPI, HTTPException, status, Response, Depends, APIRouter
-# from fastapi.security.oauth2 import OAuth2PasswordRequestForm#, OAuth2PasswordBearer
-# from sqlalchemy.orm import Session
-# #from ..data_base import engine, get_db,schema, db_models as models, utails as utils, oauth2
-# from ..data_base import engine, get_db, db_models as models, utails as utils, oauth2
-# from .. import schema  # Correct way to import schema
 
-# from ..oauth2 import create_access_token
+from fastapi import FastAPI, HTTPException, status, Response, Depends, APIRouter  # Import necessary FastAPI modules
+from fastapi.security.oauth2 import OAuth2PasswordRequestForm  # Import OAuth2 password form for authentication
+from sqlalchemy.orm import Session  # Import Session for database interaction
+from ..data_base import get_db, engine  # Import database session dependency
+from .. import db_models as models  # Import database models
+from .. import schema  # Import schema definitions for request/response validation
+from .. import utails as utils  # Import utility functions (likely for password handling)
+from .. import oauth2  # Import OAuth2 module for token handling
+from ..oauth2 import create_access_token  # Import function to create access tokens
 
-# # app/routers/auth.py
-from fastapi import FastAPI, HTTPException, status, Response, Depends, APIRouter
-from fastapi.security.oauth2 import OAuth2PasswordRequestForm
-from sqlalchemy.orm import Session
-from ..data_base import get_db, engine  # Keep only what’s necessary
-from .. import db_models as models  # Only import db_models here, not the entire data_base
-from .. import schema  # Import schema here
-from .. import utails as utils
-from .. import oauth2
-from ..oauth2 import create_access_token
+# Define an API router with a prefix and tags for organization
+router = APIRouter(prefix="/auth", 
+                   tags=["Authentication"])  
 
+router = APIRouter()  
 
-router = APIRouter(prefix="/auth", tags=["Authentication"])
-
-
-router = APIRouter()
-
-#Creating the users login path
-# @router.post("/login", response_model = schema.Token)
-# async def login(user_credentials: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)): #schema.UserLogin#
-#     user = db.query(models.User).filter(models.User.email == user_credentials.username).first()
-#     if not user:
-#         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=f"Invalid credentials")
-    
-#     if not utils.verify(user_credentials.password, user.password):
-#         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Invalid credentials")
-    
-
-
-#         #Create a token
-#         access_token = oauth2.create_access_token(data = {"user_id": user.id})
-#         #return a token
-#         return{"access_token": access_token, "token_type":"bearer"}
-    
-
-@router.post("/login", response_model=schema.Token)
+@router.post("/login", response_model=schema.Token)  # Define login route that returns a token response
 def login(
-    user_credentials: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)
+    user_credentials: OAuth2PasswordRequestForm = Depends(),  # Extract login credentials from request
+    db: Session = Depends(get_db)  # Inject database session dependency
 ):
-    # Check if user exists by email
+    # Check if user exists in the database using the provided email (username field in OAuth2)
     user = db.query(models.User).filter(models.User.email == user_credentials.username).first()
     
-    # If no user is found, raise an Unauthorized (403) exception
+    # If user is not found, raise an HTTP 403 Forbidden error
     if not user:
         raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,  # Changed to 403 for invalid credentials
+            status_code=status.HTTP_403_FORBIDDEN,
             detail="Invalid credentials"
         )
     
-    # Verify password
+    # Verify the provided password against the stored hashed password
     if not utils.verify(user_credentials.password, user.password):
         raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,  # Changed to 403 for invalid credentials
+            status_code=status.HTTP_403_FORBIDDEN,
             detail="Invalid credentials"
         )
 
-    # Create access token if credentials are valid
-    # access_token = oauth2.create_access_token(data={"user_id": user.id})
-    
-    # # Return the token
-    # return {"access_token": access_token, "token_type": "bearer"}
-
+    # Generate an access token for the authenticated user
     access_token = oauth2.create_access_token(data={"user_id": user.id})
 
-# Return the token
+    # Return the generated token in response
     return {"access_token": access_token, "token_type": "bearer"}
-

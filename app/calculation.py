@@ -1,5 +1,4 @@
-#def add(num_1: int, num_2: 2):
-    #return num_1 + num_2
+
 
 def add(num_1: int, num_2: int) -> int:
     return num_1 + num_2 
@@ -24,14 +23,7 @@ class BankAccount():
         self.balance += amount
         return self.balance
 
-    # 
-    # if amount > self.balance:
-
-    #     raise ValueError("Insufficient balance")
-    # self.balance -= amount
-    # return self.balancedef withdraw(self, amount):
-    #     self.balance -= amount
-    #     return self.balance
+   
 
     def withdraw(self, amount):
         if self.balance >= amount:

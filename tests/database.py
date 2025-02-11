@@ -18,22 +18,6 @@ engine = create_engine(DATABASE_URI)
 TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)  # This is exclusive
 Base.metadata.create_all(bind=engine)  # Create the database tables
 
-# Function to get a database session
-# def override_get_db():
-#     db = TestingSessionLocal()
-#     try:
-#         yield db
-#     finally:
-#         db.close()
-
-# @pytest.fixture(scope="function")
-# def session():
-#     # Drop and recreate all tables before tests
-#     Base.metadata.drop_all(bind=engine)
-#     Base.metadata.create_all(bind=engine)
-#     db = TestingSessionLocal()
-#     yield db
-#     db.close()
 
 @pytest.fixture(scope="function")
 def session():
@@ -54,3 +38,6 @@ def client(session):
     # Override the get_db dependency to use the session from the fixture
     app.dependency_overrides[get_db] = lambda: session
     yield TestClient(app)
+
+
+## SINCE EVERYTHING HERE HAS ALREADY BEEN MOVED TO CONFTEST.PY FILE, THIS DB DOESN'T MATTER
