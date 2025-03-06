@@ -1,5 +1,8 @@
 __pycache__/
 venv/
+calculation.py/
+test_calculation/
+project_structure/
 .env
 
 # Ignore compiled Python files
